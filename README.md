@@ -14,6 +14,7 @@ A comprehensive library of SQL queries for Microsoft Endpoint Configuration Mana
 | [Collections](#collections) | Collection membership, device counts | 4 |
 | [Security](#security) | BitLocker, Defender, TPM, Secure Boot | 6 |
 | [Applications](#applications) | Application deployment status | 5 |
+| [Server](#server) | Windows Server inventory and roles | 6 |
 
 ---
 
@@ -538,6 +539,97 @@ Returns summary statistics for all application deployments including total succe
 | Total Applications | Total Deployments | Total Targeted Devices | Total Successful | Total Failed | Total In Progress | Overall Success Rate % |
 |-------------------|-------------------|------------------------|------------------|--------------|-------------------|------------------------|
 | 45 | 120 | 54000 | 51500 | 850 | 1650 | 95.4 |
+
+---
+
+## Server
+
+### Server_Summary.sql
+
+Returns all Windows Server devices with OS version, build, and hardware specifications.
+
+**Sample Output:**
+
+| Computer Name | AD Site | Operating System | Server Version | Build Number | Manufacturer | Model | RAM (GB) | Processor | CPU Sockets | Total Cores |
+|--------------|---------|------------------|----------------|--------------|--------------|-------|----------|-----------|-------------|-------------|
+| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | Server 2022 | 20348 | Dell Inc. | PowerEdge R640 | 64 | Intel Xeon Gold 6230 | 2 | 40 |
+| SRV-SQL01 | HQ-Site | Microsoft Windows Server 2019 Standard | Server 2019 | 17763 | HP | ProLiant DL380 Gen10 | 128 | Intel Xeon Gold 6248 | 2 | 40 |
+
+---
+
+### Server_Roles.sql
+
+Returns installed server roles for all Windows Server devices. Filters to common roles like AD DS, DNS, DHCP, IIS, etc.
+
+**Sample Output:**
+
+| Computer Name | AD Site | Operating System | Role Name | Role ID | Install State |
+|--------------|---------|------------------|-----------|---------|---------------|
+| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | AD-Domain-Services | 110 | Installed |
+| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | DNS | 109 | Installed |
+| SRV-WEB01 | Branch-A | Microsoft Windows Server 2019 Standard | Web-Server | 2 | Installed |
+
+**Note:** Requires Server Feature hardware inventory class to be enabled in MECM.
+
+---
+
+### Server_Features.sql
+
+Returns all installed Windows features for Windows Server devices.
+
+**Sample Output:**
+
+| Computer Name | AD Site | Operating System | Feature Name | Feature ID | Install State |
+|--------------|---------|------------------|--------------|------------|---------------|
+| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | NET-Framework-45-Core | 417 | Installed |
+| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | RSAT-AD-Tools | 486 | Installed |
+
+**Note:** Requires Server Feature hardware inventory class to be enabled in MECM.
+
+---
+
+### Server_Uptime.sql
+
+Returns Windows Server devices with last boot time and uptime. Flags servers with extended uptime that may need patching/reboot.
+
+**Sample Output:**
+
+| Computer Name | AD Site | Operating System | Last Boot Time | Uptime (Days) | Status |
+|--------------|---------|------------------|----------------|---------------|--------|
+| SRV-LEGACY01 | Branch-B | Microsoft Windows Server 2016 Standard | 2024-08-15 03:00 | 120 | Critical (> 90 days) |
+| SRV-APP02 | HQ-Site | Microsoft Windows Server 2019 Standard | 2024-10-01 02:30 | 73 | Warning (> 60 days) |
+| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | 2024-11-15 04:00 | 28 | OK |
+
+---
+
+### Server_OS_Versions.sql
+
+Returns count of servers grouped by OS version.
+
+**Sample Output:**
+
+| Operating System | Server Version | Build Number | Server Count |
+|-----------------|----------------|--------------|--------------|
+| Microsoft Windows Server 2022 Standard | Server 2022 | 20348 | 45 |
+| Microsoft Windows Server 2019 Standard | Server 2019 | 17763 | 120 |
+| Microsoft Windows Server 2016 Standard | Server 2016 | 14393 | 65 |
+| Microsoft Windows Server 2012 R2 Standard | Server 2012 R2 | 9600 | 15 |
+
+---
+
+### Server_TLS10_Enabled.sql
+
+Returns Windows Server devices that may have TLS 1.0 enabled. TLS 1.0 is insecure and should be disabled.
+
+**Sample Output:**
+
+| Computer Name | AD Site | Operating System | Build Number | Registry Key | Value Name | Value | TLS 1.0 Status |
+|--------------|---------|------------------|--------------|--------------|------------|-------|----------------|
+| SRV-LEGACY01 | Branch-B | Microsoft Windows Server 2016 Standard | 14393 | TLS 1.0\Server | Enabled | 1 | TLS 1.0 Enabled - ACTION REQUIRED |
+| SRV-APP03 | HQ-Site | Microsoft Windows Server 2019 Standard | 17763 | TLS 1.0\Server | DisabledByDefault | 0 | TLS 1.0 May Be Enabled |
+| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | 20348 | TLS 1.0\Server | Enabled | 0 | TLS 1.0 Disabled |
+
+**Note:** Requires Registry hardware inventory class to be configured to collect SCHANNEL protocol settings.
 
 ---
 
