@@ -21,6 +21,10 @@ SELECT
         WHEN 6 THEN 'Incremental and Scheduled'
         ELSE 'Unknown'
     END AS [Refresh Type],
+    CASE
+        WHEN col.RefreshType IN (4, 6) THEN 'Yes'
+        ELSE 'No'
+    END AS [Incremental Updates],
     col.LimitToCollectionName AS [Limiting Collection]
 FROM v_Collection col
 WHERE col.CollectionType = 2  -- Device collections only
