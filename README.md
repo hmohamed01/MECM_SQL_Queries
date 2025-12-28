@@ -65,14 +65,14 @@ Returns a simple count of computers grouped by OS caption only. Provides a quick
 
 ### Computer_Summary.sql
 
-Returns comprehensive hardware inventory for all devices including manufacturer, model, CPU, RAM, and OS info.
+Returns comprehensive hardware inventory for all devices including manufacturer, model, chassis type, CPU, RAM, and OS info.
 
 **Sample Output:**
 
-| Computer Name | Manufacturer | Model | Serial Number | Processor | RAM (GB) |
-|--------------|--------------|-------|---------------|-----------|----------|
-| PC-001 | Dell Inc. | Latitude 5520 | ABC123 | Intel Core i7 | 16 |
-| PC-002 | HP | EliteBook 840 | XYZ789 | Intel Core i5 | 8 |
+| Computer Name | Manufacturer | Model | Chassis Type | Serial Number | Processor | RAM (GB) |
+|--------------|--------------|-------|--------------|---------------|-----------|----------|
+| PC-001 | Dell Inc. | Latitude 5520 | Notebook | ABC123 | Intel Core i7 | 16 |
+| PC-002 | HP | EliteBook 840 | Laptop | XYZ789 | Intel Core i5 | 8 |
 
 ---
 
@@ -120,16 +120,16 @@ Returns count of devices grouped by RAM capacity.
 
 ### Device_Models.sql
 
-Returns count of devices grouped by manufacturer and model.
+Returns count of devices grouped by manufacturer, model, and chassis type.
 
 **Sample Output:**
 
-| Manufacturer | Model | Device Count |
-|-------------|-------|--------------|
-| Dell Inc. | Latitude 5520 | 245 |
-| Dell Inc. | OptiPlex 7090 | 180 |
-| HP | EliteBook 840 G8 | 156 |
-| Lenovo | ThinkPad T14 Gen 2 | 98 |
+| Manufacturer | Model | Chassis Type | Device Count |
+|-------------|-------|--------------|--------------|
+| Dell Inc. | Latitude 5520 | Notebook | 245 |
+| Dell Inc. | OptiPlex 7090 | Desktop | 180 |
+| HP | EliteBook 840 G8 | Laptop | 156 |
+| Lenovo | ThinkPad T14 Gen 2 | Notebook | 98 |
 
 ---
 
