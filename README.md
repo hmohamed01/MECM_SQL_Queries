@@ -9,7 +9,7 @@ A comprehensive library of SQL queries for Microsoft Endpoint Configuration Mana
 | [Operating Systems](#operating-systems) | OS versions, feature updates, Windows client info | 3 |
 | [Hardware Inventory](#hardware-inventory) | CPU, memory, disk, device models | 5 |
 | [Software Inventory](#software-inventory) | Installed software, version tracking | 4 |
-| [Client Health](#client-health) | Client status, activity, communication | 5 |
+| [Client Health](#client-health) | Client status, activity, communication | 6 |
 | [Software Updates](#software-updates) | Patch compliance, missing updates | 5 |
 | [Collections](#collections) | Collection membership, device counts | 4 |
 | [Security](#security) | BitLocker, Defender, TPM, Secure Boot | 6 |
@@ -259,6 +259,21 @@ Returns devices with pending reboot flags.
 |--------------|---------|----------------|--------------|
 | PC-006 | HQ-Site | Yes | 2024-02-10 14:30 |
 | PC-007 | Branch-A | Yes | 2024-02-09 09:15 |
+
+---
+
+### Provisioning_Mode.sql
+
+Returns clients where MECM client provisioning mode is enabled. Provisioning mode prevents the client from processing policies and can cause devices to appear non-compliant.
+
+**Sample Output:**
+
+| Computer Name | AD Site | Operating System | Provisioning Mode | Last Inventory |
+|--------------|---------|------------------|-------------------|----------------|
+| PC-008 | HQ-Site | Microsoft Windows 11 Enterprise | Enabled | 2024-02-10 14:30 |
+| PC-009 | Branch-A | Microsoft Windows 10 Enterprise | Enabled | 2024-02-09 11:45 |
+
+**Note:** This query requires a custom hardware inventory extension to collect the `ProvisioningMode` registry value from `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\CCM\CcmExec`. See the SQL file comments for the MOF extension to add to your `configuration.mof`.
 
 ---
 
