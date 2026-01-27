@@ -33,6 +33,7 @@ Each SQL file follows this convention:
 
 ## Changelog
 
-- Always update `CHANGELOG.md` when major changes are committed and pushed
+- Always update `CHANGELOG.md` when major changes are made
 - Follow the existing date-header format with `Added`, `Changed`, or `Fixed` subsections
-- Stage changes under `[Unreleased]` until they are committed
+- New changes go under `[Unreleased]` and stay there through commits
+- When pushing, move `[Unreleased]` entries to a dated section `[YYYY-MM-DD]` using today's date
