@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [2026-01-27]
 
 ### Added
 - `RDL/` folder with 44 SSRS Report Definition files (one per SQL query)
