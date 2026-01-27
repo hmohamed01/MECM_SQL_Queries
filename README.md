@@ -648,6 +648,30 @@ Returns Windows Server devices that may have TLS 1.0 enabled. TLS 1.0 is insecur
 
 ---
 
+## SSRS Report Files (RDL)
+
+The `RDL/` folder contains pre-built SSRS Report Definition files for every SQL query, ready to deploy to SQL Server Reporting Services.
+
+### Setup
+
+1. In SSRS Report Manager, create a **Shared Data Source** named `CMDatabase` pointing to your MECM site database
+2. Upload the `.rdl` files from the `RDL/` subfolder matching the category you need
+3. Reports with parameters will prompt for input at runtime (e.g., application name, collection name, inactive days threshold)
+
+### Parameterized Reports
+
+| Report | Parameter | Type | Default |
+|--------|-----------|------|---------|
+| Application_Install_Status_By_Device | AppName | String | %APPLICATION_NAME% |
+| Collection_Members | CollectionName | String | COLLECTION_NAME |
+| Device_Collection_Membership | ComputerName | String | COMPUTER_NAME |
+| Find_Software | SoftwareName | String | %SOFTWARE_NAME% |
+| Software_Versions | SoftwareName | String | %SOFTWARE_NAME% |
+| Inactive_Clients | InactiveDays | Integer | 30 |
+| Defender_Outdated_Signatures | MaxAge | Integer | 7 |
+
+---
+
 ## Usage Notes
 
 ### Query Conventions

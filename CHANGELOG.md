@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Added
+- `RDL/` folder with 44 SSRS Report Definition files (one per SQL query)
+- RDL files use SSRS 2016 schema with shared `CMDatabase` data source reference
+- 7 parameterized reports (Application Install Status, Collection Members, Device Collection Membership, Find Software, Software Versions, Inactive Clients, Defender Outdated Signatures)
+- Landscape layout (11" x 8.5") with styled header row and auto-generated tablix columns
+
 ## [2026-01-27]
 
 ### Added
