@@ -11,6 +11,7 @@ DECLARE @MaxAge INT = 7
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     sys.AD_Site_Name0 AS [AD Site],
     COALESCE(wds.AntivirusSignatureVersion0, 'N/A') AS [AV Signature Version],
     COALESCE(FORMAT(wds.AntivirusSignatureUpdateDateTime0, 'yyyy-MM-dd HH:mm'), 'Never') AS [Last Signature Update],

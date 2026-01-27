@@ -21,6 +21,7 @@
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     sys.AD_Site_Name0 AS [AD Site],
     os.Caption0 AS [Operating System],
     os.BuildNumber0 AS [Build Number],

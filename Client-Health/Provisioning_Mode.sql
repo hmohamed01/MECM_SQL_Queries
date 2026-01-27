@@ -68,6 +68,7 @@
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     sys.AD_Site_Name0 AS [AD Site],
     sys.Operating_System_Name_and0 AS [Operating System],
     CASE pm.ProvisioningMode0

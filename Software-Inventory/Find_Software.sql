@@ -11,6 +11,7 @@ DECLARE @SoftwareName NVARCHAR(255) = '%SOFTWARE_NAME%'
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     sys.AD_Site_Name0 AS [AD Site],
     arp.DisplayName0 AS [Software Name],
     COALESCE(arp.Version0, 'N/A') AS [Version],

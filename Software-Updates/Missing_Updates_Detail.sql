@@ -7,6 +7,7 @@
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     ui.Title AS [Update Title],
     ui.ArticleID AS [KB Article],
     ui.BulletinID AS [Bulletin ID],

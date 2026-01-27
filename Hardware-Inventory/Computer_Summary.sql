@@ -8,6 +8,7 @@
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     sys.AD_Site_Name0 AS [AD Site],
     COALESCE(cs.Manufacturer0, 'Unknown') AS [Manufacturer],
     COALESCE(cs.Model0, 'Unknown') AS [Model],

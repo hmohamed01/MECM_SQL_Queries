@@ -7,6 +7,7 @@
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     sys.AD_Site_Name0 AS [AD Site],
     disk.DeviceID0 AS [Drive],
     CAST(ROUND(disk.Size0 / 1024.0, 2) AS DECIMAL(10,2)) AS [Total Size (GB)],

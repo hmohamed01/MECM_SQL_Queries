@@ -7,6 +7,7 @@
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     sys.AD_Site_Name0 AS [AD Site],
     FORMAT(os.LastBootUpTime0, 'yyyy-MM-dd HH:mm') AS [Last Boot Time],
     DATEDIFF(DAY, os.LastBootUpTime0, GETDATE()) AS [Uptime (Days)],

@@ -7,6 +7,7 @@
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     sys.AD_Site_Name0 AS [AD Site],
     COALESCE(FORMAT(uss.LastScanTime, 'yyyy-MM-dd HH:mm'), 'Never') AS [Last Scan Time],
     DATEDIFF(DAY, uss.LastScanTime, GETDATE()) AS [Days Since Scan],

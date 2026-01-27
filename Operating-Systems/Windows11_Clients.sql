@@ -7,6 +7,7 @@
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     scu.TopConsoleUser0 AS [Primary User],
     sys.AD_Site_Name0 AS [AD Site],
     os.Caption0 AS [Operating System],

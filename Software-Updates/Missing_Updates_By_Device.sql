@@ -7,6 +7,7 @@
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     sys.AD_Site_Name0 AS [AD Site],
     COUNT(DISTINCT ucs.CI_ID) AS [Missing Updates],
     SUM(CASE WHEN ui.Severity = 10 THEN 1 ELSE 0 END) AS [Critical],
@@ -23,5 +24,6 @@ WHERE ucs.Status = 2  -- Required (missing)
 GROUP BY
     sys.ResourceID,
     sys.Name0,
+    sys.UserName0,
     sys.AD_Site_Name0
 ORDER BY [Missing Updates] DESC

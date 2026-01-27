@@ -7,6 +7,7 @@
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     disk.DeviceID0 AS [Drive],
     disk.VolumeName0 AS [Volume Name],
     disk.FileSystem0 AS [File System],

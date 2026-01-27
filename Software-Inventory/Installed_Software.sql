@@ -7,6 +7,7 @@
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     arp.DisplayName0 AS [Software Name],
     COALESCE(arp.Version0, 'N/A') AS [Version],
     COALESCE(arp.Publisher0, 'Unknown') AS [Publisher],

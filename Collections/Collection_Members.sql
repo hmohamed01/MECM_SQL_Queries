@@ -11,6 +11,7 @@ DECLARE @CollectionName NVARCHAR(255) = 'COLLECTION_NAME'
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     sys.AD_Site_Name0 AS [AD Site],
     col.Name AS [Collection Name],
     col.CollectionID AS [Collection ID],

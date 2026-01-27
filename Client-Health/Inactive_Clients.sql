@@ -11,6 +11,7 @@ DECLARE @InactiveDays INT = 30
 SELECT
     sys.ResourceID,
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     sys.AD_Site_Name0 AS [AD Site],
     COALESCE(FORMAT(ch.LastDDR, 'yyyy-MM-dd HH:mm'), 'Never') AS [Last DDR],
     COALESCE(FORMAT(ch.LastHW, 'yyyy-MM-dd HH:mm'), 'Never') AS [Last HW Scan],

@@ -6,6 +6,7 @@
 
 SELECT
     sys.Name0 AS [Computer Name],
+    sys.UserName0 AS [User Name],
     sys.AD_Site_Name0 AS [AD Site],
     app.DisplayName AS [Application Name],
     COALESCE(app.Manufacturer, 'Unknown') AS [Manufacturer],

@@ -26,10 +26,10 @@ Returns all Windows 11 devices from MECM inventory with detailed system informat
 
 **Sample Output:**
 
-| Computer Name | Primary User | AD Site | Operating System | OS Version | Build Number |
-|--------------|--------------|---------|------------------|------------|--------------|
-| PC-001 | jsmith | HQ-Site | Microsoft Windows 11 Enterprise | 10.0.22631 | 22631 |
-| PC-002 | mjones | Branch-A | Microsoft Windows 11 Pro | 10.0.26100 | 26100 |
+| Computer Name | User Name | Primary User | AD Site | Operating System | OS Version | Build Number |
+|--------------|-----------|--------------|---------|------------------|------------|--------------|
+| PC-001 | jsmith | jsmith | HQ-Site | Microsoft Windows 11 Enterprise | 10.0.22631 | 22631 |
+| PC-002 | mjones | mjones | Branch-A | Microsoft Windows 11 Pro | 10.0.26100 | 26100 |
 
 ---
 
@@ -69,10 +69,10 @@ Returns comprehensive hardware inventory for all devices including manufacturer,
 
 **Sample Output:**
 
-| Computer Name | Manufacturer | Model | Chassis Type | Serial Number | Processor | RAM (GB) |
-|--------------|--------------|-------|--------------|---------------|-----------|----------|
-| PC-001 | Dell Inc. | Latitude 5520 | Notebook | ABC123 | Intel Core i7 | 16 |
-| PC-002 | HP | EliteBook 840 | Laptop | XYZ789 | Intel Core i5 | 8 |
+| Computer Name | User Name | Manufacturer | Model | Chassis Type | Serial Number | Processor | RAM (GB) |
+|--------------|-----------|--------------|-------|--------------|---------------|-----------|----------|
+| PC-001 | jsmith | Dell Inc. | Latitude 5520 | Notebook | ABC123 | Intel Core i7 | 16 |
+| PC-002 | mjones | HP | EliteBook 840 | Laptop | XYZ789 | Intel Core i5 | 8 |
 
 ---
 
@@ -82,11 +82,11 @@ Returns disk space usage for all logical drives on all devices.
 
 **Sample Output:**
 
-| Computer Name | Drive | Volume Name | File System | Total Size (GB) | Free Space (GB) | Used Space (GB) | Percent Used |
-|--------------|-------|-------------|-------------|-----------------|-----------------|-----------------|--------------|
-| PC-001 | C: | OS | NTFS | 237.00 | 85.50 | 151.50 | 63.9 |
-| PC-001 | D: | Data | NTFS | 500.00 | 320.00 | 180.00 | 36.0 |
-| PC-002 | C: | Windows | NTFS | 476.00 | 12.30 | 463.70 | 97.4 |
+| Computer Name | User Name | Drive | Volume Name | File System | Total Size (GB) | Free Space (GB) | Used Space (GB) | Percent Used |
+|--------------|-----------|-------|-------------|-------------|-----------------|-----------------|-----------------|--------------|
+| PC-001 | jsmith | C: | OS | NTFS | 237.00 | 85.50 | 151.50 | 63.9 |
+| PC-001 | jsmith | D: | Data | NTFS | 500.00 | 320.00 | 180.00 | 36.0 |
+| PC-002 | mjones | C: | Windows | NTFS | 476.00 | 12.30 | 463.70 | 97.4 |
 
 ---
 
@@ -96,11 +96,11 @@ Returns devices with less than 10GB or 10% free space on C: drive. Categorizes a
 
 **Sample Output:**
 
-| Computer Name | AD Site | Drive | Total Size (GB) | Free Space (GB) | Percent Used | Status |
-|--------------|---------|-------|-----------------|-----------------|--------------|--------|
-| PC-003 | Branch-B | C: | 237.00 | 3.20 | 98.6 | Critical (< 5GB) |
-| PC-004 | HQ-Site | C: | 119.00 | 8.50 | 92.9 | Warning (< 10GB) |
-| PC-005 | Branch-A | C: | 476.00 | 42.00 | 91.2 | Low (< 10%) |
+| Computer Name | User Name | AD Site | Drive | Total Size (GB) | Free Space (GB) | Percent Used | Status |
+|--------------|-----------|---------|-------|-----------------|-----------------|--------------|--------|
+| PC-003 | alee | Branch-B | C: | 237.00 | 3.20 | 98.6 | Critical (< 5GB) |
+| PC-004 | bwilson | HQ-Site | C: | 119.00 | 8.50 | 92.9 | Warning (< 10GB) |
+| PC-005 | cdavis | Branch-A | C: | 476.00 | 42.00 | 91.2 | Low (< 10%) |
 
 ---
 
@@ -141,11 +141,11 @@ Returns all installed software from Add/Remove Programs for all devices.
 
 **Sample Output:**
 
-| Computer Name | Software Name | Version | Publisher | Install Date |
-|--------------|---------------|---------|-----------|--------------|
-| PC-001 | Microsoft 365 Apps | 16.0.17328 | Microsoft Corporation | 2024-01-15 |
-| PC-001 | Google Chrome | 120.0.6099 | Google LLC | 2024-02-01 |
-| PC-002 | Adobe Acrobat Reader | 23.008.20470 | Adobe Inc. | 2024-01-20 |
+| Computer Name | User Name | Software Name | Version | Publisher | Install Date |
+|--------------|-----------|---------------|---------|-----------|--------------|
+| PC-001 | jsmith | Microsoft 365 Apps | 16.0.17328 | Microsoft Corporation | 2024-01-15 |
+| PC-001 | jsmith | Google Chrome | 120.0.6099 | Google LLC | 2024-02-01 |
+| PC-002 | mjones | Adobe Acrobat Reader | 23.008.20470 | Adobe Inc. | 2024-01-20 |
 
 ---
 
@@ -170,10 +170,10 @@ Search for devices with specific software installed. Replace `SOFTWARE_NAME` wit
 
 **Sample Output:**
 
-| Computer Name | AD Site | Software Name | Version | Publisher | Install Date |
-|--------------|---------|---------------|---------|-----------|--------------|
-| PC-001 | HQ-Site | 7-Zip 23.01 | 23.01 | Igor Pavlov | 2024-01-10 |
-| PC-015 | Branch-A | 7-Zip 23.01 | 23.01 | Igor Pavlov | 2024-02-05 |
+| Computer Name | User Name | AD Site | Software Name | Version | Publisher | Install Date |
+|--------------|-----------|---------|---------------|---------|-----------|--------------|
+| PC-001 | jsmith | HQ-Site | 7-Zip 23.01 | 23.01 | Igor Pavlov | 2024-01-10 |
+| PC-015 | kbrown | Branch-A | 7-Zip 23.01 | 23.01 | Igor Pavlov | 2024-02-05 |
 
 ---
 
@@ -199,10 +199,10 @@ Returns client health status including last activity, DDR, hardware scan, and po
 
 **Sample Output:**
 
-| Computer Name | AD Site | Client Status | Active DDR | Active HW Inventory | Last DDR | Last HW Scan | Days Since DDR |
-|--------------|---------|---------------|------------|---------------------|----------|--------------|----------------|
-| PC-001 | HQ-Site | Active | Yes | Yes | 2024-02-10 08:30 | 2024-02-09 14:22 | 1 |
-| PC-002 | Branch-A | Inactive | No | No | 2024-01-05 10:15 | 2024-01-04 09:00 | 37 |
+| Computer Name | User Name | AD Site | Client Status | Active DDR | Active HW Inventory | Last DDR | Last HW Scan | Days Since DDR |
+|--------------|-----------|---------|---------------|------------|---------------------|----------|--------------|----------------|
+| PC-001 | jsmith | HQ-Site | Active | Yes | Yes | 2024-02-10 08:30 | 2024-02-09 14:22 | 1 |
+| PC-002 | mjones | Branch-A | Inactive | No | No | 2024-01-05 10:15 | 2024-01-04 09:00 | 37 |
 
 ---
 
@@ -212,11 +212,11 @@ Returns clients that haven't communicated in specified days (default 30). Catego
 
 **Sample Output:**
 
-| Computer Name | AD Site | Last DDR | Last HW Scan | Last Policy Request | Days Inactive | Status |
-|--------------|---------|----------|--------------|---------------------|---------------|--------|
-| PC-OLD1 | Branch-B | 2023-10-15 09:00 | 2023-10-14 14:30 | 2023-10-15 09:05 | 120 | Critical (> 90 days) |
-| PC-OLD2 | HQ-Site | 2023-12-01 11:22 | 2023-11-30 16:00 | 2023-12-01 11:30 | 72 | Warning (> 60 days) |
-| PC-OLD3 | Branch-A | 2024-01-05 08:45 | 2024-01-04 10:00 | 2024-01-05 08:50 | 37 | Inactive (> 30 days) |
+| Computer Name | User Name | AD Site | Last DDR | Last HW Scan | Last Policy Request | Days Inactive | Status |
+|--------------|-----------|---------|----------|--------------|---------------------|---------------|--------|
+| PC-OLD1 | rgarcia | Branch-B | 2023-10-15 09:00 | 2023-10-14 14:30 | 2023-10-15 09:05 | 120 | Critical (> 90 days) |
+| PC-OLD2 | jsmith | HQ-Site | 2023-12-01 11:22 | 2023-11-30 16:00 | 2023-12-01 11:30 | 72 | Warning (> 60 days) |
+| PC-OLD3 | mjones | Branch-A | 2024-01-05 08:45 | 2024-01-04 10:00 | 2024-01-05 08:50 | 37 | Inactive (> 30 days) |
 
 ---
 
@@ -241,11 +241,11 @@ Returns devices with last boot time and uptime. Flags devices needing reboot (> 
 
 **Sample Output:**
 
-| Computer Name | AD Site | Last Boot Time | Uptime (Days) | Status |
-|--------------|---------|----------------|---------------|--------|
-| PC-003 | HQ-Site | 2023-12-15 09:00 | 58 | Needs Reboot (> 30 days) |
-| PC-004 | Branch-A | 2024-01-20 14:30 | 22 | Consider Reboot (> 14 days) |
-| PC-005 | Branch-B | 2024-02-08 08:00 | 3 | OK |
+| Computer Name | User Name | AD Site | Last Boot Time | Uptime (Days) | Status |
+|--------------|-----------|---------|----------------|---------------|--------|
+| PC-003 | alee | HQ-Site | 2023-12-15 09:00 | 58 | Needs Reboot (> 30 days) |
+| PC-004 | bwilson | Branch-A | 2024-01-20 14:30 | 22 | Consider Reboot (> 14 days) |
+| PC-005 | cdavis | Branch-B | 2024-02-08 08:00 | 3 | OK |
 
 ---
 
@@ -255,10 +255,10 @@ Returns devices with pending reboot flags.
 
 **Sample Output:**
 
-| Computer Name | AD Site | Pending Reboot | Last HW Scan |
-|--------------|---------|----------------|--------------|
-| PC-006 | HQ-Site | Yes | 2024-02-10 14:30 |
-| PC-007 | Branch-A | Yes | 2024-02-09 09:15 |
+| Computer Name | User Name | AD Site | Pending Reboot | Last HW Scan |
+|--------------|-----------|---------|----------------|--------------|
+| PC-006 | jsmith | HQ-Site | Yes | 2024-02-10 14:30 |
+| PC-007 | mjones | Branch-A | Yes | 2024-02-09 09:15 |
 
 ---
 
@@ -268,10 +268,10 @@ Returns clients where MECM client provisioning mode is enabled. Provisioning mod
 
 **Sample Output:**
 
-| Computer Name | AD Site | Operating System | Provisioning Mode | Last Inventory |
-|--------------|---------|------------------|-------------------|----------------|
-| PC-008 | HQ-Site | Microsoft Windows 11 Enterprise | Enabled | 2024-02-10 14:30 |
-| PC-009 | Branch-A | Microsoft Windows 10 Enterprise | Enabled | 2024-02-09 11:45 |
+| Computer Name | User Name | AD Site | Operating System | Provisioning Mode | Last Inventory |
+|--------------|-----------|---------|------------------|-------------------|----------------|
+| PC-008 | jsmith | HQ-Site | Microsoft Windows 11 Enterprise | Enabled | 2024-02-10 14:30 |
+| PC-009 | mjones | Branch-A | Microsoft Windows 10 Enterprise | Enabled | 2024-02-09 11:45 |
 
 **Note:** This query requires a custom hardware inventory extension to collect the `ProvisioningMode` registry value from `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\CCM\CcmExec`. See the SQL file comments for the MOF extension to add to your `configuration.mof`.
 
@@ -299,11 +299,11 @@ Returns count of missing updates per device, broken down by severity (Critical, 
 
 **Sample Output:**
 
-| Computer Name | AD Site | Missing Updates | Critical | Important | Moderate | Low |
-|--------------|---------|-----------------|----------|-----------|----------|-----|
-| PC-010 | Branch-B | 15 | 2 | 8 | 4 | 1 |
-| PC-011 | HQ-Site | 8 | 0 | 5 | 3 | 0 |
-| PC-012 | Branch-A | 5 | 1 | 2 | 2 | 0 |
+| Computer Name | User Name | AD Site | Missing Updates | Critical | Important | Moderate | Low |
+|--------------|-----------|---------|-----------------|----------|-----------|----------|-----|
+| PC-010 | rgarcia | Branch-B | 15 | 2 | 8 | 4 | 1 |
+| PC-011 | jsmith | HQ-Site | 8 | 0 | 5 | 3 | 0 |
+| PC-012 | mjones | Branch-A | 5 | 1 | 2 | 2 | 0 |
 
 ---
 
@@ -313,10 +313,10 @@ Returns detailed list of missing updates with KB article info and release dates.
 
 **Sample Output:**
 
-| Computer Name | Update Title | KB Article | Bulletin ID | Severity | Classification | Release Date |
-|--------------|--------------|------------|-------------|----------|----------------|--------------|
-| PC-010 | 2024-01 Cumulative Update for Windows 11 | 5034123 | | Critical | Security Updates | 2024-01-09 |
-| PC-010 | Security Update for .NET Framework | 5033890 | MS24-001 | Important | Security Updates | 2024-01-09 |
+| Computer Name | User Name | Update Title | KB Article | Bulletin ID | Severity | Classification | Release Date |
+|--------------|-----------|--------------|------------|-------------|----------|----------------|--------------|
+| PC-010 | rgarcia | 2024-01 Cumulative Update for Windows 11 | 5034123 | | Critical | Security Updates | 2024-01-09 |
+| PC-010 | rgarcia | Security Update for .NET Framework | 5033890 | MS24-001 | Important | Security Updates | 2024-01-09 |
 
 ---
 
@@ -326,11 +326,11 @@ Returns last software update scan time and status for each device.
 
 **Sample Output:**
 
-| Computer Name | AD Site | Last Scan Time | Days Since Scan | Scan Status |
-|--------------|---------|----------------|-----------------|-------------|
-| PC-013 | HQ-Site | 2024-02-10 06:30 | 1 | Completed |
-| PC-014 | Branch-A | 2024-02-08 14:22 | 3 | Completed |
-| PC-015 | Branch-B | 2024-01-15 09:00 | 27 | Failed |
+| Computer Name | User Name | AD Site | Last Scan Time | Days Since Scan | Scan Status |
+|--------------|-----------|---------|----------------|-----------------|-------------|
+| PC-013 | jsmith | HQ-Site | 2024-02-10 06:30 | 1 | Completed |
+| PC-014 | mjones | Branch-A | 2024-02-08 14:22 | 3 | Completed |
+| PC-015 | kbrown | Branch-B | 2024-01-15 09:00 | 27 | Failed |
 
 ---
 
@@ -355,11 +355,11 @@ Returns all members of a specific collection. Replace `COLLECTION_NAME` with the
 
 **Sample Output:**
 
-| Computer Name | AD Site | Collection Name | Collection ID | Membership Type |
-|--------------|---------|-----------------|---------------|-----------------|
-| PC-001 | HQ-Site | All Windows 11 | SMS00002 | Query |
-| PC-002 | Branch-A | All Windows 11 | SMS00002 | Query |
-| PC-003 | HQ-Site | All Windows 11 | SMS00002 | Direct |
+| Computer Name | User Name | AD Site | Collection Name | Collection ID | Membership Type |
+|--------------|-----------|---------|-----------------|---------------|-----------------|
+| PC-001 | jsmith | HQ-Site | All Windows 11 | SMS00002 | Query |
+| PC-002 | mjones | Branch-A | All Windows 11 | SMS00002 | Query |
+| PC-003 | alee | HQ-Site | All Windows 11 | SMS00002 | Direct |
 
 ---
 
@@ -412,11 +412,11 @@ Returns BitLocker encryption status for all devices including protection status,
 
 **Sample Output:**
 
-| Computer Name | AD Site | Drive | Protection Status | Conversion Status | Encryption Method | Key Protectors |
-|--------------|---------|-------|-------------------|-------------------|-------------------|----------------|
-| PC-001 | HQ-Site | C: | Protection On | Fully Encrypted | XTS-AES 256 | TPM, RecoveryPassword |
-| PC-001 | HQ-Site | D: | Protection On | Fully Encrypted | XTS-AES 128 | RecoveryPassword |
-| PC-002 | Branch-A | C: | Protection Off | Fully Decrypted | None | None |
+| Computer Name | User Name | AD Site | Drive | Protection Status | Conversion Status | Encryption Method | Key Protectors |
+|--------------|-----------|---------|-------|-------------------|-------------------|-------------------|----------------|
+| PC-001 | jsmith | HQ-Site | C: | Protection On | Fully Encrypted | XTS-AES 256 | TPM, RecoveryPassword |
+| PC-001 | jsmith | HQ-Site | D: | Protection On | Fully Encrypted | XTS-AES 128 | RecoveryPassword |
+| PC-002 | mjones | Branch-A | C: | Protection Off | Fully Decrypted | None | None |
 
 ---
 
@@ -426,11 +426,11 @@ Returns devices where the OS drive (C:) is not fully encrypted.
 
 **Sample Output:**
 
-| Computer Name | AD Site | Status |
-|--------------|---------|--------|
-| PC-020 | Branch-B | Fully Decrypted |
-| PC-021 | HQ-Site | Encryption In Progress |
-| PC-022 | Branch-A | No BitLocker Data |
+| Computer Name | User Name | AD Site | Status |
+|--------------|-----------|---------|--------|
+| PC-020 | rgarcia | Branch-B | Fully Decrypted |
+| PC-021 | jsmith | HQ-Site | Encryption In Progress |
+| PC-022 | mjones | Branch-A | No BitLocker Data |
 
 ---
 
@@ -440,11 +440,11 @@ Returns TPM chip information including activation, enabled status, ownership, an
 
 **Sample Output:**
 
-| Computer Name | AD Site | TPM Activated | TPM Enabled | TPM Owned | TPM Version | Manufacturer Version |
-|--------------|---------|---------------|-------------|-----------|-------------|---------------------|
-| PC-001 | HQ-Site | Yes | Yes | Yes | 2.0 | 7.2.1.0 |
-| PC-002 | Branch-A | Yes | Yes | No | 2.0 | 7.2.1.0 |
-| PC-003 | Branch-B | No | No | No | 1.2 | 5.1.0.0 |
+| Computer Name | User Name | AD Site | TPM Activated | TPM Enabled | TPM Owned | TPM Version | Manufacturer Version |
+|--------------|-----------|---------|---------------|-------------|-----------|-------------|---------------------|
+| PC-001 | jsmith | HQ-Site | Yes | Yes | Yes | 2.0 | 7.2.1.0 |
+| PC-002 | mjones | Branch-A | Yes | Yes | No | 2.0 | 7.2.1.0 |
+| PC-003 | alee | Branch-B | No | No | No | 1.2 | 5.1.0.0 |
 
 ---
 
@@ -454,10 +454,10 @@ Returns Windows Defender antivirus status including real-time protection, signat
 
 **Sample Output:**
 
-| Computer Name | AD Site | Antimalware Service | Real-Time Protection | AV Signature Version | Last Signature Update | Signature Age (Days) | Engine Version |
-|--------------|---------|---------------------|----------------------|---------------------|----------------------|---------------------|----------------|
-| PC-001 | HQ-Site | Enabled | Enabled | 1.403.1234.0 | 2024-02-10 06:00 | 1 | 1.1.24010.10 |
-| PC-002 | Branch-A | Enabled | Disabled | 1.403.1200.0 | 2024-02-05 12:00 | 6 | 1.1.24010.10 |
+| Computer Name | User Name | AD Site | Antimalware Service | Real-Time Protection | AV Signature Version | Last Signature Update | Signature Age (Days) | Engine Version |
+|--------------|-----------|---------|---------------------|----------------------|---------------------|----------------------|---------------------|----------------|
+| PC-001 | jsmith | HQ-Site | Enabled | Enabled | 1.403.1234.0 | 2024-02-10 06:00 | 1 | 1.1.24010.10 |
+| PC-002 | mjones | Branch-A | Enabled | Disabled | 1.403.1200.0 | 2024-02-05 12:00 | 6 | 1.1.24010.10 |
 
 ---
 
@@ -467,10 +467,10 @@ Returns devices with Defender signatures older than 7 days. Categorizes as Criti
 
 **Sample Output:**
 
-| Computer Name | AD Site | AV Signature Version | Last Signature Update | Signature Age (Days) | Status |
-|--------------|---------|---------------------|----------------------|---------------------|--------|
-| PC-025 | Branch-B | 1.401.1050.0 | 2024-01-20 08:00 | 22 | Critical (> 14 days) |
-| PC-026 | HQ-Site | 1.402.1100.0 | 2024-02-01 14:30 | 10 | Warning (> 7 days) |
+| Computer Name | User Name | AD Site | AV Signature Version | Last Signature Update | Signature Age (Days) | Status |
+|--------------|-----------|---------|---------------------|----------------------|---------------------|--------|
+| PC-025 | rgarcia | Branch-B | 1.401.1050.0 | 2024-01-20 08:00 | 22 | Critical (> 14 days) |
+| PC-026 | jsmith | HQ-Site | 1.402.1100.0 | 2024-02-01 14:30 | 10 | Warning (> 7 days) |
 
 ---
 
@@ -480,11 +480,11 @@ Returns Secure Boot configuration status and boot mode (UEFI vs Legacy BIOS).
 
 **Sample Output:**
 
-| Computer Name | AD Site | Secure Boot Status | Boot Mode |
-|--------------|---------|-------------------|-----------|
-| PC-001 | HQ-Site | Enabled | UEFI |
-| PC-002 | Branch-A | Disabled | UEFI |
-| PC-003 | Branch-B | Unknown/Not Supported | Legacy BIOS |
+| Computer Name | User Name | AD Site | Secure Boot Status | Boot Mode |
+|--------------|-----------|---------|-------------------|-----------|
+| PC-001 | jsmith | HQ-Site | Enabled | UEFI |
+| PC-002 | mjones | Branch-A | Disabled | UEFI |
+| PC-003 | alee | Branch-B | Unknown/Not Supported | Legacy BIOS |
 
 ---
 
@@ -523,11 +523,11 @@ Returns application installation status for a specific application. Replace `APP
 
 **Sample Output:**
 
-| Computer Name | AD Site | Application Name | Install Status | Enforcement State |
-|--------------|---------|-----------------|----------------|-------------------|
-| PC-001 | HQ-Site | Microsoft 365 Apps | Installed | Success |
-| PC-002 | Branch-A | Microsoft 365 Apps | Not Installed | In Progress |
-| PC-003 | Branch-B | Microsoft 365 Apps | Not Installed | Error |
+| Computer Name | User Name | AD Site | Application Name | Install Status | Enforcement State |
+|--------------|-----------|---------|-----------------|----------------|-------------------|
+| PC-001 | jsmith | HQ-Site | Microsoft 365 Apps | Installed | Success |
+| PC-002 | mjones | Branch-A | Microsoft 365 Apps | Not Installed | In Progress |
+| PC-003 | alee | Branch-B | Microsoft 365 Apps | Not Installed | Error |
 
 ---
 
@@ -537,11 +537,11 @@ Returns all failed application deployments with error codes and descriptions.
 
 **Sample Output:**
 
-| Computer Name | AD Site | Application Name | Manufacturer | Error Code | Error Description |
-|--------------|---------|-----------------|--------------|------------|-------------------|
-| PC-030 | Branch-B | Custom App v2 | Contoso | 4002 | Failed to Install |
-| PC-031 | HQ-Site | Legacy Tool | Internal | 4001 | Failed to Download |
-| PC-032 | Branch-A | Database Client | Oracle | 4004 | Dependency Failed |
+| Computer Name | User Name | AD Site | Application Name | Manufacturer | Error Code | Error Description |
+|--------------|-----------|---------|-----------------|--------------|------------|-------------------|
+| PC-030 | rgarcia | Branch-B | Custom App v2 | Contoso | 4002 | Failed to Install |
+| PC-031 | jsmith | HQ-Site | Legacy Tool | Internal | 4001 | Failed to Download |
+| PC-032 | mjones | Branch-A | Database Client | Oracle | 4004 | Dependency Failed |
 
 ---
 
@@ -565,10 +565,10 @@ Returns all Windows Server devices with OS version, build, and hardware specific
 
 **Sample Output:**
 
-| Computer Name | AD Site | Operating System | Server Version | Build Number | Manufacturer | Model | RAM (GB) | Processor | CPU Sockets | Total Cores |
-|--------------|---------|------------------|----------------|--------------|--------------|-------|----------|-----------|-------------|-------------|
-| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | Server 2022 | 20348 | Dell Inc. | PowerEdge R640 | 64 | Intel Xeon Gold 6230 | 2 | 40 |
-| SRV-SQL01 | HQ-Site | Microsoft Windows Server 2019 Standard | Server 2019 | 17763 | HP | ProLiant DL380 Gen10 | 128 | Intel Xeon Gold 6248 | 2 | 40 |
+| Computer Name | User Name | AD Site | Operating System | Server Version | Build Number | Manufacturer | Model | RAM (GB) | Processor | CPU Sockets | Total Cores |
+|--------------|-----------|---------|------------------|----------------|--------------|--------------|-------|----------|-----------|-------------|-------------|
+| SRV-DC01 | svcadmin | HQ-Site | Microsoft Windows Server 2022 Standard | Server 2022 | 20348 | Dell Inc. | PowerEdge R640 | 64 | Intel Xeon Gold 6230 | 2 | 40 |
+| SRV-SQL01 | sqladmin | HQ-Site | Microsoft Windows Server 2019 Standard | Server 2019 | 17763 | HP | ProLiant DL380 Gen10 | 128 | Intel Xeon Gold 6248 | 2 | 40 |
 
 ---
 
@@ -578,11 +578,11 @@ Returns installed server roles for all Windows Server devices. Filters to common
 
 **Sample Output:**
 
-| Computer Name | AD Site | Operating System | Role Name | Role ID | Install State |
-|--------------|---------|------------------|-----------|---------|---------------|
-| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | AD-Domain-Services | 110 | Installed |
-| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | DNS | 109 | Installed |
-| SRV-WEB01 | Branch-A | Microsoft Windows Server 2019 Standard | Web-Server | 2 | Installed |
+| Computer Name | User Name | AD Site | Operating System | Role Name | Role ID | Install State |
+|--------------|-----------|---------|------------------|-----------|---------|---------------|
+| SRV-DC01 | svcadmin | HQ-Site | Microsoft Windows Server 2022 Standard | AD-Domain-Services | 110 | Installed |
+| SRV-DC01 | svcadmin | HQ-Site | Microsoft Windows Server 2022 Standard | DNS | 109 | Installed |
+| SRV-WEB01 | webadmin | Branch-A | Microsoft Windows Server 2019 Standard | Web-Server | 2 | Installed |
 
 **Note:** Requires Server Feature hardware inventory class to be enabled in MECM.
 
@@ -594,10 +594,10 @@ Returns all installed Windows features for Windows Server devices.
 
 **Sample Output:**
 
-| Computer Name | AD Site | Operating System | Feature Name | Feature ID | Install State |
-|--------------|---------|------------------|--------------|------------|---------------|
-| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | NET-Framework-45-Core | 417 | Installed |
-| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | RSAT-AD-Tools | 486 | Installed |
+| Computer Name | User Name | AD Site | Operating System | Feature Name | Feature ID | Install State |
+|--------------|-----------|---------|------------------|--------------|------------|---------------|
+| SRV-DC01 | svcadmin | HQ-Site | Microsoft Windows Server 2022 Standard | NET-Framework-45-Core | 417 | Installed |
+| SRV-DC01 | svcadmin | HQ-Site | Microsoft Windows Server 2022 Standard | RSAT-AD-Tools | 486 | Installed |
 
 **Note:** Requires Server Feature hardware inventory class to be enabled in MECM.
 
@@ -609,11 +609,11 @@ Returns Windows Server devices with last boot time and uptime. Flags servers wit
 
 **Sample Output:**
 
-| Computer Name | AD Site | Operating System | Last Boot Time | Uptime (Days) | Status |
-|--------------|---------|------------------|----------------|---------------|--------|
-| SRV-LEGACY01 | Branch-B | Microsoft Windows Server 2016 Standard | 2024-08-15 03:00 | 120 | Critical (> 90 days) |
-| SRV-APP02 | HQ-Site | Microsoft Windows Server 2019 Standard | 2024-10-01 02:30 | 73 | Warning (> 60 days) |
-| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | 2024-11-15 04:00 | 28 | OK |
+| Computer Name | User Name | AD Site | Operating System | Last Boot Time | Uptime (Days) | Status |
+|--------------|-----------|---------|------------------|----------------|---------------|--------|
+| SRV-LEGACY01 | svcadmin | Branch-B | Microsoft Windows Server 2016 Standard | 2024-08-15 03:00 | 120 | Critical (> 90 days) |
+| SRV-APP02 | appadmin | HQ-Site | Microsoft Windows Server 2019 Standard | 2024-10-01 02:30 | 73 | Warning (> 60 days) |
+| SRV-DC01 | svcadmin | HQ-Site | Microsoft Windows Server 2022 Standard | 2024-11-15 04:00 | 28 | OK |
 
 ---
 
@@ -638,11 +638,11 @@ Returns Windows Server devices that may have TLS 1.0 enabled. TLS 1.0 is insecur
 
 **Sample Output:**
 
-| Computer Name | AD Site | Operating System | Build Number | Registry Key | Value Name | Value | TLS 1.0 Status |
-|--------------|---------|------------------|--------------|--------------|------------|-------|----------------|
-| SRV-LEGACY01 | Branch-B | Microsoft Windows Server 2016 Standard | 14393 | TLS 1.0\Server | Enabled | 1 | TLS 1.0 Enabled - ACTION REQUIRED |
-| SRV-APP03 | HQ-Site | Microsoft Windows Server 2019 Standard | 17763 | TLS 1.0\Server | DisabledByDefault | 0 | TLS 1.0 May Be Enabled |
-| SRV-DC01 | HQ-Site | Microsoft Windows Server 2022 Standard | 20348 | TLS 1.0\Server | Enabled | 0 | TLS 1.0 Disabled |
+| Computer Name | User Name | AD Site | Operating System | Build Number | Registry Key | Value Name | Value | TLS 1.0 Status |
+|--------------|-----------|---------|------------------|--------------|--------------|------------|-------|----------------|
+| SRV-LEGACY01 | svcadmin | Branch-B | Microsoft Windows Server 2016 Standard | 14393 | TLS 1.0\Server | Enabled | 1 | TLS 1.0 Enabled - ACTION REQUIRED |
+| SRV-APP03 | appadmin | HQ-Site | Microsoft Windows Server 2019 Standard | 17763 | TLS 1.0\Server | DisabledByDefault | 0 | TLS 1.0 May Be Enabled |
+| SRV-DC01 | svcadmin | HQ-Site | Microsoft Windows Server 2022 Standard | 20348 | TLS 1.0\Server | Enabled | 0 | TLS 1.0 Disabled |
 
 **Note:** Requires Registry hardware inventory class to be configured to collect SCHANNEL protocol settings.
 

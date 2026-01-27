@@ -30,3 +30,9 @@ Each SQL file follows this convention:
 - Join on `ResourceID` as the primary key across views
 - Use `LEFT JOIN` for optional inventory data that may not exist for all devices
 - Format column aliases as `[Friendly Name]` for SSRS/report compatibility
+
+## Changelog
+
+- Always update `CHANGELOG.md` when major changes are committed and pushed
+- Follow the existing date-header format with `Added`, `Changed`, or `Fixed` subsections
+- Stage changes under `[Unreleased]` until they are committed
