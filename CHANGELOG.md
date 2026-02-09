@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Added
+- `dashboards/` folder with `MECM_Dashboard.xlsx` Excel dashboard workbook
+- 7 dashboard sheets: OS, Hardware, Client Health, Update Compliance, Security, Applications, Server
+- 15 charts (pie and bar) with sample data across all dashboard sheets
+- 14 embedded ODBC data connections with SQL queries for live data refresh
+- 4 dashboard-specific security aggregation queries (BitLocker, Secure Boot, Defender, TPM)
+- SQL Queries reference sheet and Connection Setup sheet in the workbook
+- `dashboards/generate_dashboard.py` script for regenerating the workbook
+- Companion resources section at top of README with links to RDL and dashboards
+
 ## [2026-01-27]
 
 ### Added

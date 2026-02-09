@@ -8,3 +8,6 @@ Thumbs.db
 # Editor settings
 .vscode/
 .idea/
+
+# Python virtual environments
+dashboards/.venv/

@@ -2,6 +2,11 @@
 
 A comprehensive library of SQL queries for Microsoft Endpoint Configuration Manager (MECM/SCCM) database reporting. These queries run against the MECM site database to extract inventory, compliance, and device management data.
 
+### Companion Resources
+
+- **[`/RDL`](RDL/)** — Pre-built SSRS Report Definition (.rdl) files for all 44 queries, ready to deploy to SQL Server Reporting Services
+- **[`/dashboards`](dashboards/)** — Excel dashboard workbook with pie charts, bar charts, and SQL Server data connections for visual reporting
+
 ## Query Categories
 
 | Category | Description | Query Count |
@@ -645,6 +650,52 @@ Returns Windows Server devices that may have TLS 1.0 enabled. TLS 1.0 is insecur
 | SRV-DC01 | svcadmin | HQ-Site | Microsoft Windows Server 2022 Standard | 20348 | TLS 1.0\Server | Enabled | 0 | TLS 1.0 Disabled |
 
 **Note:** Requires Registry hardware inventory class to be configured to collect SCHANNEL protocol settings.
+
+---
+
+## Excel Dashboard
+
+The `dashboards/` folder contains an Excel workbook (`MECM_Dashboard.xlsx`) with pre-built charts and embedded SQL Server data connections for visual reporting across your MECM environment.
+
+### Dashboard Sheets
+
+| Sheet | Charts | SQL Queries Used |
+|-------|--------|------------------|
+| OS Dashboard | OS distribution pie chart, feature update bar chart | OS_Count_Summary, OS_FeatureUpdate_Counts |
+| Hardware Dashboard | RAM distribution pie chart, device models bar chart | Memory_Summary, Device_Models |
+| Client Health | Client version pie chart | Client_Version |
+| Update Compliance | Compliance by classification bar chart, deployment status bar chart | Update_Compliance_Summary, Update_Deployment_Status |
+| Security Dashboard | BitLocker pie chart, Secure Boot pie chart, Defender RTP pie chart, TPM pie chart | Dashboard-specific aggregation queries |
+| Applications | Deployment outcome pie chart, per-app success rate bar chart | Deployment_Summary, Application_Deployment_Status |
+| Server Dashboard | Server OS pie chart, server version bar chart | Server_OS_Versions |
+| SQL Queries | Reference sheet listing all SQL queries used | — |
+| Connection Setup | Data source configuration and refresh instructions | — |
+
+### Setup
+
+1. Open `MECM_Dashboard.xlsx` in Excel (desktop version)
+2. Go to **Data > Connections** to view the 14 embedded data connections
+3. Update the server name from `MECMServer` to your MECM SQL server
+4. Update the database name from `CM_PS1` to your site code (e.g., `CM_ABC`)
+5. Click **Data > Refresh All** to populate charts with live data
+
+The workbook ships with sample data so charts render immediately. Once connected to your database, the sample data is replaced with live results.
+
+### Generator Script (Optional)
+
+The generator script is not required for the dashboard to work. The `MECM_Dashboard.xlsx` file is ready to use as-is.
+
+The `dashboards/generate_dashboard.py` script generates the workbook programmatically. To regenerate or customize:
+
+```bash
+cd dashboards
+python3 -m venv .venv
+source .venv/bin/activate
+pip install openpyxl
+python3 generate_dashboard.py
+```
+
+Edit the script to change the server/database placeholders, add sheets, or modify chart styles.
 
 ---
 
