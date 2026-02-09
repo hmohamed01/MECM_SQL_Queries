@@ -657,6 +657,8 @@ Returns Windows Server devices that may have TLS 1.0 enabled. TLS 1.0 is insecur
 
 The `dashboards/` folder contains an Excel workbook (`MECM_Dashboard.xlsx`) with pre-built charts and embedded SQL Server data connections for visual reporting across your MECM environment.
 
+![OS Dashboard Preview](dashboards/os_dashboard_preview.png)
+
 ### Dashboard Sheets
 
 | Sheet | Charts | SQL Queries Used |

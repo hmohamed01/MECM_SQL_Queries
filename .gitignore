@@ -11,3 +11,6 @@ Thumbs.db
 
 # Python virtual environments
 dashboards/.venv/
+
+# Dashboard preview generator (local only)
+dashboards/generate_preview.py
