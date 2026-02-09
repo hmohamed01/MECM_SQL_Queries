@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [2026-02-09]
 
 ### Added
 - `dashboards/` folder with `MECM_Dashboard.xlsx` Excel dashboard workbook
