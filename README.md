@@ -1,5 +1,12 @@
 # MECM SQL Queries
 
+![SQL Server](https://img.shields.io/badge/SQL_Server-T--SQL-CC2927?logo=microsoftsqlserver&logoColor=white)
+![MECM](https://img.shields.io/badge/MECM-ConfigMgr-0078D4?logo=microsoft&logoColor=white)
+![Queries](https://img.shields.io/badge/Queries-44-blue)
+![Categories](https://img.shields.io/badge/Categories-9-green)
+![SSRS Reports](https://img.shields.io/badge/SSRS_Reports-44_RDL-orange)
+![Excel Dashboard](https://img.shields.io/badge/Dashboard-Excel-217346?logo=microsoftexcel&logoColor=white)
+
 A comprehensive library of SQL queries for Microsoft Endpoint Configuration Manager (MECM/SCCM) database reporting. These queries run against the MECM site database to extract inventory, compliance, and device management data.
 
 ### Companion Resources
