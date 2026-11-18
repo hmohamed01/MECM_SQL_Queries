@@ -621,8 +621,35 @@ const countBy = (items, keyOf) => {
   }
   return counts
 }
-const likeToRegExp = (pattern) =>
-  new RegExp(`^${pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/%/g, '.*').replace(/_/g, '.')}$`, 'i')
+// SQL LIKE (% and _, case-insensitive) without a regex: a RegExp built from user-typed % runs backtracks
+// catastrophically, while this two-pointer match only retries from the last % and stays O(pattern × text).
+const likeMatcher = (pattern) => {
+  const loweredPattern = pattern.toLowerCase()
+  return (value) => {
+    const text = String(value).toLowerCase()
+    let patternIndex = 0
+    let textIndex = 0
+    let lastWildcardIndex = -1
+    let resumeTextIndex = 0
+    while (textIndex < text.length) {
+      const token = loweredPattern[patternIndex]
+      if (token === '%') {
+        lastWildcardIndex = patternIndex++
+        resumeTextIndex = textIndex
+      } else if (token !== undefined && (token === '_' || token === text[textIndex])) {
+        patternIndex++
+        textIndex++
+      } else if (lastWildcardIndex !== -1) {
+        patternIndex = lastWildcardIndex + 1
+        textIndex = ++resumeTextIndex
+      } else {
+        return false
+      }
+    }
+    while (loweredPattern[patternIndex] === '%') patternIndex++
+    return patternIndex === loweredPattern.length
+  }
+}
 const isServerOs = (device) => device.os.caption.includes('Server')
 
 const conversionName = (code) =>
@@ -751,9 +778,9 @@ const sampleQueries = {
       .sort(byNumberDesc('Install Count')),
 
   'Software-Inventory/Find_Software': ({ SoftwareName }) => {
-    const matcher = likeToRegExp(SoftwareName)
+    const matchesName = likeMatcher(SoftwareName)
     return softwareInstalls
-      .filter((install) => matcher.test(install.name))
+      .filter((install) => matchesName(install.name))
       .map(({ device, name, version, publisher, installDate }) => ({
         ...deviceIdentity(device),
         'Software Name': name,
@@ -765,8 +792,8 @@ const sampleQueries = {
   },
 
   'Software-Inventory/Software_Versions': ({ SoftwareName }) => {
-    const matcher = likeToRegExp(SoftwareName)
-    return [...countBy(softwareInstalls.filter((install) => matcher.test(install.name)), (install) => `${install.name}|${install.version}`)]
+    const matchesName = likeMatcher(SoftwareName)
+    return [...countBy(softwareInstalls.filter((install) => matchesName(install.name)), (install) => `${install.name}|${install.version}`)]
       .map(([key, count]) => {
         const [name, version] = key.split('|')
         return { 'Software Name': name, Version: version, 'Install Count': count }
@@ -1067,14 +1094,14 @@ const sampleQueries = {
       .sort((left, right) => left['Application Name'].localeCompare(right['Application Name'])),
 
   'Applications/Application_Install_Status_By_Device': ({ AppName }) => {
-    const matcher = likeToRegExp(AppName)
+    const matchesName = likeMatcher(AppName)
     const enforcementNames = {
       1000: 'Success', 1001: 'Already Compliant', 1002: 'Simulate Success', 2000: 'In Progress', 2001: 'Waiting for Content',
       2002: 'Installing', 2003: 'Restart Pending', 2004: 'Waiting for Maintenance Window', 2005: 'Waiting for Install Window',
       2006: 'Pending Soft Reboot', 3000: 'Requirements Not Met', 4000: 'Error', 5000: 'Evaluating',
     }
     return appDeployments
-      .filter(({ application }) => matcher.test(application.name))
+      .filter(({ application }) => matchesName(application.name))
       .flatMap(({ application, states }) =>
         states
           .filter(({ enforcementState }) => enforcementState !== null)

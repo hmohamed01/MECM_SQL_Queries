@@ -89,7 +89,30 @@ const getResult = (query, paramValues, bypassCache) => {
 
 const toMetadata = ({ batch, ...metadata }) => metadata
 
+// A web page can point its own domain at 127.0.0.1 (DNS rebinding) and then read this API as same-origin,
+// so requests must name one of this server's own hosts. ALLOWED_HOSTS adds the names a reverse proxy forwards.
+const allowedHosts = new Set(
+  ['localhost', '127.0.0.1', '[::1]', host, ...(process.env.ALLOWED_HOSTS ?? '').split(',')]
+    .map((name) => name.trim().toLowerCase())
+    .filter(Boolean),
+)
+
 const app = express()
+
+app.use((request, response, next) => {
+  const requestHost = request.hostname?.toLowerCase() ?? ''
+  if (!allowedHosts.has(requestHost)) {
+    response.status(403).type('text').send(`Host "${requestHost}" is not allowed. Add it to ALLOWED_HOSTS in .env.`)
+    return
+  }
+  // Other sites can't read API responses, but their blind requests could still start expensive live queries.
+  if (request.path.startsWith('/api/') && request.get('sec-fetch-site') === 'cross-site') {
+    response.status(403).json({ error: { kind: 'forbidden', message: 'Cross-site requests are not allowed' } })
+    return
+  }
+  next()
+})
+
 app.use(compression())
 
 app.get('/api/status', (_request, response) => {

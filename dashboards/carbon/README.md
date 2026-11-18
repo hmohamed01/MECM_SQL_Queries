@@ -7,7 +7,7 @@ A web dashboard set for the queries in this repository, built on IBM's [Carbon D
 - **10 dashboards**: an overview plus one per query category
 - **All 44 queries**, each shown with the Carbon chart that fits its data shape, plus a sortable, searchable records table
 - **Live or sample**: connects to your site database, or runs against a built-in, internally consistent sample fleet when no server is configured
-- **Four Carbon themes** (White, Gray 10, Gray 90, Gray 100) with theme-aware chart and status colors
+- **Styled after [carbondesignsystem.com](https://carbondesignsystem.com)**: Gray 10 content under a white UI shell by default, with White, Gray 90 and Gray 100 in the theme panel. Chart and status colors follow the chosen theme
 
 ## Quick start
 
@@ -55,6 +55,8 @@ Use a read-only account. The queries only read `v_*` views, so a login in the si
 
 > [!IMPORTANT]
 > The dashboard server has no authentication of its own. It binds to `127.0.0.1` by default. Only change `HOST` if it sits behind a reverse proxy that authenticates users, because anyone who can reach it can read your inventory data.
+>
+> It also refuses requests addressed to any host name other than `localhost`, `127.0.0.1` or `HOST`. That stops a web page you visit from using DNS rebinding to read the API through your browser. Behind a proxy, list the host names it forwards in `ALLOWED_HOSTS`, comma-separated.
 
 Live results are cached for `MECM_CACHE_SECONDS` (default 300). The refresh button in the header re-runs every query on the page and bypasses the cache.
 

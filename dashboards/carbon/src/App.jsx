@@ -22,19 +22,22 @@ import { refreshAllQueries, useStatus } from './lib/api.js'
 import { DashboardPage } from './components/DashboardPage.jsx'
 import { DASHBOARDS } from './dashboards/index.js'
 
+// Like carbondesignsystem.com: light content themes sit under a white UI shell, dark ones under Gray 100.
 const THEMES = [
-  { id: 'white', name: 'White' },
-  { id: 'g10', name: 'Gray 10' },
-  { id: 'g90', name: 'Gray 90' },
-  { id: 'g100', name: 'Gray 100' },
+  { id: 'white', name: 'White', shell: 'white' },
+  { id: 'g10', name: 'Gray 10', shell: 'white' },
+  { id: 'g90', name: 'Gray 90', shell: 'g100' },
+  { id: 'g100', name: 'Gray 100', shell: 'g100' },
 ]
-const THEME_STORAGE_KEY = 'mecm-carbon-theme'
+const DEFAULT_THEME = 'g10'
+// Renamed when the default moved from Gray 100 to Gray 10, so earlier sessions start on the new default.
+const THEME_STORAGE_KEY = 'mecm-carbon-content-theme'
 
 const readStoredTheme = () => {
   try {
-    return localStorage.getItem(THEME_STORAGE_KEY) ?? 'g100'
+    return localStorage.getItem(THEME_STORAGE_KEY) ?? DEFAULT_THEME
   } catch {
-    return 'g100'
+    return DEFAULT_THEME
   }
 }
 
@@ -150,6 +153,7 @@ export const App = () => {
   const route = useHashRoute()
   const position = Math.max(DASHBOARDS.findIndex((dashboard) => dashboard.id === route), 0)
   const dashboard = DASHBOARDS[position]
+  const shellTheme = THEMES.find(({ id }) => id === theme)?.shell ?? 'white'
 
   useEffect(() => {
     document.title = `${dashboard.navLabel} · MECM Fleet Reporting`
@@ -157,7 +161,7 @@ export const App = () => {
 
   return (
     <>
-      <Theme theme="g100">
+      <Theme theme={shellTheme}>
         <AppShell route={dashboard.id} theme={theme} onThemeChange={setTheme} />
       </Theme>
       <Theme theme={theme} as="main" id="main-content" className="app-content">

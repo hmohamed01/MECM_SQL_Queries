@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { SkeletonPlaceholder, Tile, Toggletip, ToggletipButton, ToggletipContent, useTheme } from '@carbon/react'
 import { Information, Search } from '@carbon/icons-react'
+import { themes } from '@carbon/themes'
 import { useQuery } from '../lib/api.js'
 import { formatNumber } from '../lib/aggregate.js'
 import { CHARTS } from './charts.js'
@@ -44,9 +45,13 @@ export const PanelFooter = ({ queryId, result }) => (
 const NO_TRUNCATION = { type: 'none' }
 
 // Keeps a fixed label→color scale from listing groups this result does not contain (Carbon Charts warns on those).
-const scaleForPresentGroups = (color, data) => {
-  if (!color?.scale) return color
+// A single series encodes no category, so it takes the theme's interactive blue instead of the first categorical color.
+const scaleForPresentGroups = (color, data, theme) => {
   const presentGroups = new Set(data.map((datum) => datum.group ?? datum.name))
+  if (!color?.scale) {
+    const [onlyGroup] = presentGroups
+    return presentGroups.size === 1 && onlyGroup !== undefined ? { ...color, scale: { [onlyGroup]: themes[theme].interactive } } : color
+  }
   return { ...color, scale: Object.fromEntries(Object.entries(color.scale).filter(([group]) => presentGroups.has(group))) }
 }
 
@@ -93,7 +98,7 @@ export const ChartPanel = ({ panel, params, index }) => {
         accessibility: { svgAriaLabel: panel.title },
         ...output.options,
         legend: { alignment: 'left', truncation: NO_TRUNCATION, ...output.options?.legend },
-        color: scaleForPresentGroups(output.options?.color, output.data),
+        color: scaleForPresentGroups(output.options?.color, output.data, theme),
       },
     }
   }, [state, panel, theme, height])

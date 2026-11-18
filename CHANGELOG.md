@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Changed
+- Carbon dashboards restyled after carbondesignsystem.com, with the layout unchanged:
+  - Gray 10 content under a white UI shell by default; Gray 90 and Gray 100 switch the shell to Gray 100
+  - Full-width page header band with an IBM Plex Serif Light title
+  - Tiles divided by 1px hairlines
+  - Plex Sans labels in place of uppercase monospace
+  - Single-series charts in Carbon's interactive blue
+- The saved theme preference starts fresh on the new Gray 10 default
+- Carbon dashboard preview image updated to the light theme
+
+### Fixed
+- Carbon dashboard server answered requests for any `Host` header, so a web page could use DNS rebinding to read inventory data through the local API. It now accepts only its own host names (plus `ALLOWED_HOSTS` for reverse proxies) and rejects cross-site API requests
+- Carbon dashboard sample mode turned `%` wildcards in lookups into a regular expression that a crafted search could stall; LIKE patterns are now matched without a regex
+
 ## [2026-11-18]
 
 ### Added

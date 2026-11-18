@@ -18,27 +18,19 @@ $stagger-step: 55ms;
   }
 }
 
-@keyframes rule-draw {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
 // The fixed UI shell sits outside the themed <main>, so the page canvas follows the content theme here.
+// Gray 10 is the default, so it is also the color before the theme attribute is set (no dark flash on load).
 html {
-  --page-background: #161616;
+  --page-background: #f4f4f4;
 
   &[data-carbon-theme='white'] {
     --page-background: #ffffff;
   }
-  &[data-carbon-theme='g10'] {
-    --page-background: #f4f4f4;
-  }
   &[data-carbon-theme='g90'] {
     --page-background: #262626;
+  }
+  &[data-carbon-theme='g100'] {
+    --page-background: #161616;
   }
 }
 
@@ -49,36 +41,19 @@ body {
 // ── Canvas ────────────────────────────────────────────────────────────────
 
 .app-content {
-  --grid-line: color-mix(in srgb, var(--cds-border-subtle-01) 55%, transparent);
-  --glow: color-mix(in srgb, var(--cds-interactive) 14%, transparent);
+  // Tiles share 1px dividers, as in the carbondesignsystem.com chart gallery.
+  --tile-divider: var(--cds-border-subtle-00, var(--cds-border-subtle-01));
 
   position: relative;
   min-height: 100vh;
   padding: calc(3rem + #{spacing.$spacing-07}) spacing.$spacing-05 spacing.$spacing-10;
+  // Clips the full-width page header band without creating a scroll container that would trap chart tooltips.
+  overflow-x: clip;
   isolation: isolate;
 
   @include bp.breakpoint(lg) {
     margin-left: 16rem;
     padding-inline: spacing.$spacing-07;
-  }
-
-  // The 2x Grid: Carbon's 8px-derived layout grid rendered as a faint blueprint behind the content.
-  &::before {
-    position: absolute;
-    z-index: -1;
-    inset: 0 0 auto;
-    height: 46rem;
-    background-image:
-      radial-gradient(ellipse 60% 70% at 12% 0%, var(--glow), transparent 70%),
-      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-    background-size:
-      100% 100%,
-      2rem 2rem,
-      2rem 2rem;
-    content: '';
-    mask-image: linear-gradient(to bottom, #000 0%, rgb(0 0 0 / 55%) 45%, transparent 100%);
-    pointer-events: none;
   }
 }
 
@@ -89,40 +64,45 @@ body {
 
 // ── Page header ───────────────────────────────────────────────────────────
 
+// A layer-01 band across the full content width, like the page header on carbondesignsystem.com.
 .page-header {
+  position: relative;
   max-width: 64rem;
-  margin-bottom: spacing.$spacing-08;
+  margin: calc(-1 * #{spacing.$spacing-07}) 0 spacing.$spacing-07;
+  padding-block: spacing.$spacing-09 spacing.$spacing-08;
+  isolation: isolate;
+
+  &::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0 -100vmax;
+    border-bottom: 1px solid var(--cds-border-subtle-01);
+    background: var(--cds-layer-01);
+    content: '';
+  }
 
   > * {
     animation: rise-in motion.$duration-slow-01 $entrance both;
   }
 
   &__eyebrow {
-    @include type.type-style('code-02');
+    @include type.type-style('label-02');
 
-    display: flex;
-    align-items: center;
-    gap: spacing.$spacing-04;
     color: var(--cds-text-secondary);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-
-    &::after {
-      width: spacing.$spacing-09;
-      height: 2px;
-      background: var(--cds-interactive);
-      animation: rule-draw motion.$duration-slow-02 $entrance 200ms both;
-      content: '';
-      transform-origin: left;
-    }
   }
 
   &__title {
-    @include type.type-style('fluid-display-01', true);
+    @include type.type-style('heading-07');
+    @include type.font-family('serif');
 
-    margin-block: spacing.$spacing-04 spacing.$spacing-05;
+    margin-block: spacing.$spacing-03 spacing.$spacing-06;
     animation-delay: 60ms;
     color: var(--cds-text-primary);
+    font-weight: 300;
+
+    @include bp.breakpoint-down(md) {
+      font-size: 2.625rem;
+    }
   }
 
   &__summary {
@@ -130,50 +110,61 @@ body {
 
     max-width: 44rem;
     animation-delay: 120ms;
-    color: var(--cds-text-secondary);
+    color: var(--cds-text-primary);
+    // The website's lead paragraph: 24px Plex Sans at Carbon's expressive paragraph line height.
+    font-size: 1.5rem;
+    line-height: 1.334;
   }
 
   &__queries {
     display: flex;
     flex-wrap: wrap;
-    gap: spacing.$spacing-02;
-    margin-top: spacing.$spacing-06;
+    gap: spacing.$spacing-03;
+    margin-top: spacing.$spacing-07;
     animation-delay: 180ms;
 
+    // Styled as Carbon read-only gray tags.
     code {
       @include type.type-style('code-01');
 
-      display: inline-block;
-      padding: spacing.$spacing-01 spacing.$spacing-03;
-      border: 1px solid var(--cds-border-subtle-01);
-      background: var(--cds-layer-01);
-      color: var(--cds-text-secondary);
+      display: inline-flex;
+      min-height: 1.5rem;
+      align-items: center;
+      padding-inline: spacing.$spacing-03;
+      border-radius: 1rem;
+      background: var(--cds-tag-background-gray, #e0e0e0);
+      color: var(--cds-tag-color-gray, #161616);
     }
   }
 }
 
 .section-heading {
-  @include type.type-style('heading-04');
+  @include type.type-style('heading-06');
 
-  margin: spacing.$spacing-09 0 spacing.$spacing-05;
+  margin: spacing.$spacing-10 0 spacing.$spacing-06;
   color: var(--cds-text-primary);
 }
 
 // ── Tiles ─────────────────────────────────────────────────────────────────
 
+// A 1px gutter plus a 1px ring on every tile leaves exactly one hairline between neighbours.
 .kpi-grid,
 .panel-grid {
+  --cds-grid-gutter-start: 0rem;
+  --cds-grid-gutter-end: 1px;
+
   padding-inline: 0;
   margin-inline: 0;
-  row-gap: spacing.$spacing-03;
+  row-gap: 1px;
 }
 
 .panel-grid {
-  margin-top: spacing.$spacing-03;
+  margin-top: 1px;
 }
 
 .kpi-tile,
 .chart-panel {
+  box-shadow: 0 0 0 1px var(--tile-divider);
   animation: rise-in motion.$duration-moderate-02 $entrance both;
   animation-delay: calc(240ms + var(--stagger, 0) * #{$stagger-step});
 }
@@ -230,12 +221,6 @@ body {
   height: 100%;
   flex-direction: column;
   padding: spacing.$spacing-05;
-  border: 1px solid var(--cds-border-subtle-01);
-  transition: border-color motion.$duration-fast-02 motion.motion(standard, productive);
-
-  &:hover {
-    border-color: var(--cds-border-strong-01);
-  }
 
   &__header {
     min-height: 3rem;
@@ -252,15 +237,13 @@ body {
   }
 
   &__eyebrow {
-    @include type.type-style('code-01');
+    @include type.type-style('label-01');
 
-    color: var(--cds-text-helper);
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
+    color: var(--cds-text-secondary);
   }
 
   &__title {
-    @include type.type-style('heading-03');
+    @include type.type-style('body-02');
 
     color: var(--cds-text-primary);
   }
@@ -334,12 +317,13 @@ body {
   border-top: 1px solid var(--cds-border-subtle-01);
   color: var(--cds-text-helper);
 
-  &__file,
-  &__meta {
+  &__file {
     @include type.type-style('code-01');
   }
 
   &__meta {
+    @include type.type-style('label-01');
+
     display: inline-flex;
     align-items: center;
     gap: spacing.$spacing-02;
@@ -437,11 +421,15 @@ body {
 .data-source-tag {
   align-self: center;
   margin-right: spacing.$spacing-03;
-  font-family: var(--cds-code-01-font-family, 'IBM Plex Mono', monospace);
 
   @include bp.breakpoint-down(md) {
     display: none;
   }
+}
+
+// The website's side nav ends in a hairline against the content.
+.cds--side-nav__navigation {
+  border-right: 1px solid var(--cds-border-subtle-01);
 }
 
 .theme-panel {
@@ -450,7 +438,6 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .page-header > *,
-  .page-header__eyebrow::after,
   .kpi-tile,
   .chart-panel {
     animation: none;
