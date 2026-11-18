@@ -106,7 +106,8 @@ app.use((request, response, next) => {
     return
   }
   // Other sites can't read API responses, but their blind requests could still start expensive live queries.
-  if (request.path.startsWith('/api/') && request.get('sec-fetch-site') === 'cross-site') {
+  // Express routes case-insensitively ("/API/..." reaches the API), so the path test must ignore case too.
+  if (request.path.toLowerCase().startsWith('/api/') && request.get('sec-fetch-site') === 'cross-site') {
     response.status(403).json({ error: { kind: 'forbidden', message: 'Cross-site requests are not allowed' } })
     return
   }

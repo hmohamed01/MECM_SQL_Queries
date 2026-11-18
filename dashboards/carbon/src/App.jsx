@@ -33,9 +33,11 @@ const DEFAULT_THEME = 'g10'
 // Renamed when the default moved from Gray 100 to Gray 10, so earlier sessions start on the new default.
 const THEME_STORAGE_KEY = 'mecm-carbon-content-theme'
 
+// Only a known theme id is trusted: chart colors look the stored value up in @carbon/themes.
 const readStoredTheme = () => {
   try {
-    return localStorage.getItem(THEME_STORAGE_KEY) ?? DEFAULT_THEME
+    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY)
+    return THEMES.some(({ id }) => id === storedTheme) ? storedTheme : DEFAULT_THEME
   } catch {
     return DEFAULT_THEME
   }

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Fixed
+- Carbon dashboard server's cross-site check compared the path case-sensitively while Express routes case-insensitively, so cross-site requests to `/API/...` could still start uncached queries
+- Carbon dashboards crashed when the stored theme preference held an unknown value; it now falls back to Gray 10
+
 ## [2026-11-18]
 
 ### Added
