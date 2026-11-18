@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [2026-11-18]
 
 ### Added
 - `dashboards/carbon/` web dashboard set built on the Carbon Design System (`@carbon/react`, `@carbon/charts-react`)
