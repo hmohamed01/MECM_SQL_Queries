@@ -2,12 +2,6 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
-
-### Fixed
-- Carbon dashboard server's cross-site check compared the path case-sensitively while Express routes case-insensitively, so cross-site requests to `/API/...` could still start uncached queries
-- Carbon dashboards crashed when the stored theme preference held an unknown value; it now falls back to Gray 10
-
 ## [2026-11-18]
 
 ### Added
@@ -37,6 +31,8 @@ All notable changes to this project will be documented in this file.
 - Matching RDL reports and `MECM_Dashboard.xlsx` data connections updated with the corrected queries; the Carbon dashboards no longer patch these results client-side
 - Carbon dashboard server answered requests for any `Host` header, so a web page could use DNS rebinding to read inventory data through the local API. It now accepts only its own host names (plus `ALLOWED_HOSTS` for reverse proxies) and rejects cross-site API requests
 - Carbon dashboard sample mode turned `%` wildcards in lookups into a regular expression that a crafted search could stall; LIKE patterns are now matched without a regex
+- Carbon dashboard server's cross-site check compared the path case-sensitively while Express routes case-insensitively, so cross-site requests to `/API/...` could still start uncached queries
+- Carbon dashboards crashed when the stored theme preference held an unknown value; it now falls back to Gray 10
 
 ## [2026-02-09]
 
