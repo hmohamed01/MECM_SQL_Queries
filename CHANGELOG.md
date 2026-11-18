@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Added
+- `dashboards/carbon/` web dashboard set built on the Carbon Design System (`@carbon/react`, `@carbon/charts-react`)
+- 10 dashboards (Overview plus one per query category) covering all 44 queries, each with a Carbon visualization chosen for its data shape and a searchable records table
+- Node.js server that reads the repository's `.sql` files at runtime, parses their headers, and binds `DECLARE` parameters with `request.input()`
+- Live SQL Server mode with Windows (msnodesqlv8), SQL and NTLM authentication, result caching, and prerequisite-aware error messages
+- Seeded sample fleet that answers every query with its exact column aliases, used when no server is configured
+- Carbon status indicators (icon + color + label), four switchable Carbon themes, and lookups for the parameterized queries
+- Carbon dashboard section, badge and preview image in the README, with step-by-step instructions for connecting the dashboards to live data
+
+### Fixed
+- `Update_Deployment_Status.sql` matched compliance status on `ResourceID` alone, counting every update on each device. It now classifies each targeted device once per update group using only that group's updates, linking deployments through `v_CIAssignmentToGroup` and `v_CIAssignmentToCI`
+- `Server_OS_Versions.sql` and `Server_Summary.sql` returned `Other` for Windows Server 2025; `Server_Summary.sql` also did so for Server 2008 and 2008 R2
+- `Defender_Outdated_Signatures.sql` labeled devices with no signature date `OK`; they now return `No Signature Data`
+- `BitLocker_Not_Encrypted.sql` could never return `No BitLocker Data` because the inner `CASE` always produced `Unknown` first
+- Matching RDL reports and `MECM_Dashboard.xlsx` data connections updated with the corrected queries; the Carbon dashboards no longer patch these results client-side
+
 ## [2026-02-09]
 
 ### Added

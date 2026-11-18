@@ -6,6 +6,7 @@
 ![Categories](https://img.shields.io/badge/Categories-9-green)
 ![SSRS Reports](https://img.shields.io/badge/SSRS_Reports-44_RDL-orange)
 ![Excel Dashboard](https://img.shields.io/badge/Dashboard-Excel-217346?logo=microsoftexcel&logoColor=white)
+![Carbon Dashboard](https://img.shields.io/badge/Dashboard-Carbon_Design_System-161616?logo=ibm&logoColor=white)
 
 A comprehensive library of SQL queries for Microsoft Endpoint Configuration Manager (MECM/SCCM) database reporting. These queries run against the MECM site database to extract inventory, compliance, and device management data.
 
@@ -13,6 +14,7 @@ A comprehensive library of SQL queries for Microsoft Endpoint Configuration Mana
 
 - **[`/RDL`](RDL/)** — Pre-built SSRS Report Definition (.rdl) files for all 44 queries, ready to deploy to SQL Server Reporting Services
 - **[`/dashboards`](dashboards/)** — Excel dashboard workbook with pie charts, bar charts, and SQL Server data connections for visual reporting
+- **[`/dashboards/carbon`](dashboards/carbon/)** — Web dashboards built on IBM's Carbon Design System that run all 44 queries live, each with the Carbon chart that fits its data
 
 ## Query Categories
 
@@ -348,7 +350,7 @@ Returns last software update scan time and status for each device.
 
 ### Update_Deployment_Status.sql
 
-Returns deployment status for software update groups with compliance percentages.
+Returns deployment status for software update groups with compliance percentages. Each targeted device is counted once per group, using only that group's updates: Required if any update is missing, Compliant if none are missing and at least one is installed, and Not Required if none apply.
 
 **Sample Output:**
 
@@ -475,7 +477,7 @@ Returns Windows Defender antivirus status including real-time protection, signat
 
 ### Defender_Outdated_Signatures.sql
 
-Returns devices with Defender signatures older than 7 days. Categorizes as Critical (> 14 days) or Warning (> 7 days).
+Returns devices with Defender signatures older than 7 days. Categorizes as Critical (> 14 days) or Warning (> 7 days), and devices that report no signature date as No Signature Data.
 
 **Sample Output:**
 
@@ -483,6 +485,7 @@ Returns devices with Defender signatures older than 7 days. Categorizes as Criti
 |--------------|-----------|---------|---------------------|----------------------|---------------------|--------|
 | PC-025 | rgarcia | Branch-B | 1.401.1050.0 | 2024-01-20 08:00 | 22 | Critical (> 14 days) |
 | PC-026 | jsmith | HQ-Site | 1.402.1100.0 | 2024-02-01 14:30 | 10 | Warning (> 7 days) |
+| PC-027 | mjones | Branch-A | N/A | Never | | No Signature Data |
 
 ---
 
@@ -637,6 +640,7 @@ Returns count of servers grouped by OS version.
 
 | Operating System | Server Version | Build Number | Server Count |
 |-----------------|----------------|--------------|--------------|
+| Microsoft Windows Server 2025 Standard | Server 2025 | 26100 | 12 |
 | Microsoft Windows Server 2022 Standard | Server 2022 | 20348 | 45 |
 | Microsoft Windows Server 2019 Standard | Server 2019 | 17763 | 120 |
 | Microsoft Windows Server 2016 Standard | Server 2016 | 14393 | 65 |
@@ -705,6 +709,74 @@ python3 generate_dashboard.py
 ```
 
 Edit the script to change the server/database placeholders, add sheets, or modify chart styles.
+
+---
+
+## Carbon Dashboard
+
+The `dashboards/carbon/` folder contains a web dashboard set built on the [Carbon Design System](https://carbondesignsystem.com). It reads the `.sql` files in this repository at runtime, binds their parameters safely, and shows each query with the Carbon chart that fits its data shape. Examples include tree maps, bullet charts, alluvial diagrams and histograms with bins aligned to the query thresholds. Every query also has a sortable, searchable records table.
+
+![Carbon Security Dashboard Preview](dashboards/carbon/preview.png)
+
+| Dashboard | Highlights |
+|-----------|------------|
+| Overview | Eight KPI tiles with Carbon status indicators, OS tree map, update compliance bullet chart |
+| Operating Systems | Edition tree map, feature-update currency, Windows 11 rollout over time |
+| Hardware | Device models, RAM tiers, cores × RAM heat map, disk utilization histogram, low disk by site |
+| Software | Top titles lollipop, titles-per-device histogram, software lookup with version spread |
+| Client Health | Active client gauge, health signals, client version meter, inactivity and uptime |
+| Software Updates | Compliance vs. target, update group state, devices furthest behind, scan health |
+| Collections | Refresh schedule mix, largest and empty collections, collection and device lookups |
+| Security | BitLocker conversion → protection alluvial, TPM readiness, Defender signature age, Secure Boot |
+| Applications | Deployment success gauge, enforcement state per deployment, failure causes, app lookup |
+| Servers | OS versions, capacity bubble chart, roles × OS heat map, feature word cloud, TLS 1.0 exposure |
+
+### Quick Start
+
+```bash
+cd dashboards/carbon
+npm install
+npm run build
+npm start    # http://127.0.0.1:4173
+```
+
+Without configuration it runs against a built-in sample fleet, and the header shows a purple **Sample fleet** tag.
+
+### Using Live Data
+
+To show your own environment, point the dashboards at your MECM site database:
+
+1. **Find the server and database names.** In the Configuration Manager console, open **Administration > Site Configuration > Servers and Site System Roles**. The server with the **Site database server** role hosts the database. The database is named `CM_<site code>` by default, for example `CM_PS1`.
+
+2. **Create the settings file** from the template:
+
+   ```bash
+   cd dashboards/carbon
+   cp .env.example .env
+   ```
+
+3. **Set the server and database** in `.env`:
+
+   ```ini
+   MECM_SQL_SERVER=cm-sql01.contoso.com
+   MECM_SQL_DATABASE=CM_PS1
+   ```
+
+   `MECM_SQL_SERVER` takes the same forms as SSMS: `HOST` for a default instance, `HOST\INSTANCE` for a named instance, or `HOST,PORT` for a custom port.
+
+4. **Choose how to sign in** with `MECM_SQL_AUTH`:
+
+   | Value | When to use it | Also set |
+   |-------|----------------|----------|
+   | `windows` (default) | The dashboard runs on Windows under an account with database access | — |
+   | `sql` | You have a SQL Server login | `MECM_SQL_USER`, `MECM_SQL_PASSWORD` |
+   | `ntlm` | You run from macOS or Linux with a domain account | `MECM_SQL_DOMAIN`, `MECM_SQL_USER`, `MECM_SQL_PASSWORD` |
+
+5. **Restart the server** with `npm start`. The `.env` file is only read at startup.
+
+6. **Check the connection.** The header tag turns green and shows `Live · <server> / <database>`. That only confirms the settings were read. The connection itself works once the panels fill with your data. If it fails, each panel shows the error, such as a sign-in failure or an untrusted certificate.
+
+A read-only account is enough: the queries only read `v_*` views, so membership in `smsschm_users` or `db_datareader` on the site database works. `.env` is ignored by git, so credentials stay on your machine. Certificate validation is on by default. See [Connecting to your site database](dashboards/carbon/README.md#connecting-to-your-site-database) for what to do if your site database uses a self-signed certificate. That README also covers caching and why each query got its visualization.
 
 ---
 

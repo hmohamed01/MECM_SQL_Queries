@@ -1,0 +1,458 @@
+@use '@carbon/react';
+@use '@carbon/react/scss/breakpoint' as bp;
+@use '@carbon/react/scss/motion' as motion;
+@use '@carbon/react/scss/spacing' as spacing;
+@use '@carbon/react/scss/type' as type;
+
+$entrance: motion.motion(entrance, expressive);
+$stagger-step: 55ms;
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(spacing.$spacing-05);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rule-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+// The fixed UI shell sits outside the themed <main>, so the page canvas follows the content theme here.
+html {
+  --page-background: #161616;
+
+  &[data-carbon-theme='white'] {
+    --page-background: #ffffff;
+  }
+  &[data-carbon-theme='g10'] {
+    --page-background: #f4f4f4;
+  }
+  &[data-carbon-theme='g90'] {
+    --page-background: #262626;
+  }
+}
+
+body {
+  background: var(--page-background);
+}
+
+// ── Canvas ────────────────────────────────────────────────────────────────
+
+.app-content {
+  --grid-line: color-mix(in srgb, var(--cds-border-subtle-01) 55%, transparent);
+  --glow: color-mix(in srgb, var(--cds-interactive) 14%, transparent);
+
+  position: relative;
+  min-height: 100vh;
+  padding: calc(3rem + #{spacing.$spacing-07}) spacing.$spacing-05 spacing.$spacing-10;
+  isolation: isolate;
+
+  @include bp.breakpoint(lg) {
+    margin-left: 16rem;
+    padding-inline: spacing.$spacing-07;
+  }
+
+  // The 2x Grid: Carbon's 8px-derived layout grid rendered as a faint blueprint behind the content.
+  &::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0 0 auto;
+    height: 46rem;
+    background-image:
+      radial-gradient(ellipse 60% 70% at 12% 0%, var(--glow), transparent 70%),
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size:
+      100% 100%,
+      2rem 2rem,
+      2rem 2rem;
+    content: '';
+    mask-image: linear-gradient(to bottom, #000 0%, rgb(0 0 0 / 55%) 45%, transparent 100%);
+    pointer-events: none;
+  }
+}
+
+.dashboard {
+  max-width: 99rem;
+  margin-inline: auto;
+}
+
+// ── Page header ───────────────────────────────────────────────────────────
+
+.page-header {
+  max-width: 64rem;
+  margin-bottom: spacing.$spacing-08;
+
+  > * {
+    animation: rise-in motion.$duration-slow-01 $entrance both;
+  }
+
+  &__eyebrow {
+    @include type.type-style('code-02');
+
+    display: flex;
+    align-items: center;
+    gap: spacing.$spacing-04;
+    color: var(--cds-text-secondary);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+
+    &::after {
+      width: spacing.$spacing-09;
+      height: 2px;
+      background: var(--cds-interactive);
+      animation: rule-draw motion.$duration-slow-02 $entrance 200ms both;
+      content: '';
+      transform-origin: left;
+    }
+  }
+
+  &__title {
+    @include type.type-style('fluid-display-01', true);
+
+    margin-block: spacing.$spacing-04 spacing.$spacing-05;
+    animation-delay: 60ms;
+    color: var(--cds-text-primary);
+  }
+
+  &__summary {
+    @include type.type-style('body-02');
+
+    max-width: 44rem;
+    animation-delay: 120ms;
+    color: var(--cds-text-secondary);
+  }
+
+  &__queries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: spacing.$spacing-02;
+    margin-top: spacing.$spacing-06;
+    animation-delay: 180ms;
+
+    code {
+      @include type.type-style('code-01');
+
+      display: inline-block;
+      padding: spacing.$spacing-01 spacing.$spacing-03;
+      border: 1px solid var(--cds-border-subtle-01);
+      background: var(--cds-layer-01);
+      color: var(--cds-text-secondary);
+    }
+  }
+}
+
+.section-heading {
+  @include type.type-style('heading-04');
+
+  margin: spacing.$spacing-09 0 spacing.$spacing-05;
+  color: var(--cds-text-primary);
+}
+
+// ── Tiles ─────────────────────────────────────────────────────────────────
+
+.kpi-grid,
+.panel-grid {
+  padding-inline: 0;
+  margin-inline: 0;
+  row-gap: spacing.$spacing-03;
+}
+
+.panel-grid {
+  margin-top: spacing.$spacing-03;
+}
+
+.kpi-tile,
+.chart-panel {
+  animation: rise-in motion.$duration-moderate-02 $entrance both;
+  animation-delay: calc(240ms + var(--stagger, 0) * #{$stagger-step});
+}
+
+.kpi-tile {
+  position: relative;
+  display: flex;
+  min-height: 11rem;
+  flex-direction: column;
+  border-top: 3px solid var(--kpi-accent);
+
+  &__label {
+    @include type.type-style('label-02');
+
+    color: var(--cds-text-secondary);
+  }
+
+  &__value {
+    @include type.type-style('fluid-display-02', true);
+
+    margin-block: spacing.$spacing-03 spacing.$spacing-02;
+    color: var(--cds-text-primary);
+    font-variant-numeric: tabular-nums;
+    font-weight: 300;
+  }
+
+  &__unit {
+    margin-left: spacing.$spacing-01;
+    color: var(--cds-text-secondary);
+    font-size: 0.5em;
+  }
+
+  &__detail {
+    @include type.type-style('helper-text-01');
+
+    color: var(--cds-text-secondary);
+  }
+
+  &__error {
+    color: var(--cds-text-error);
+  }
+
+  &__source {
+    @include type.type-style('code-01');
+
+    margin-top: auto;
+    padding-top: spacing.$spacing-04;
+    color: var(--cds-text-placeholder);
+  }
+}
+
+.chart-panel {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  padding: spacing.$spacing-05;
+  border: 1px solid var(--cds-border-subtle-01);
+  transition: border-color motion.$duration-fast-02 motion.motion(standard, productive);
+
+  &:hover {
+    border-color: var(--cds-border-strong-01);
+  }
+
+  &__header {
+    min-height: 3rem;
+    margin-bottom: spacing.$spacing-03;
+    // Leaves room on the right for the chart toolbar that is pulled up into this row.
+    padding-right: 5.5rem;
+  }
+
+  &__title-row {
+    display: flex;
+    align-items: center;
+    gap: spacing.$spacing-02;
+    margin-top: spacing.$spacing-02;
+  }
+
+  &__eyebrow {
+    @include type.type-style('code-01');
+
+    color: var(--cds-text-helper);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    @include type.type-style('heading-03');
+
+    color: var(--cds-text-primary);
+  }
+
+  &__body {
+    flex: 1;
+
+    // Carbon Charts renders its toolbar in a row of its own; sharing the title row saves ~55px per panel.
+    &--with-toolbar {
+      margin-top: -3rem;
+
+      .cds--cc--chart-wrapper > .header {
+        pointer-events: none;
+      }
+
+      .cds--cc--toolbar {
+        pointer-events: auto;
+      }
+    }
+  }
+}
+
+.panel-skeleton {
+  width: 100%;
+}
+
+.panel-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: spacing.$spacing-04;
+  padding: spacing.$spacing-06;
+  border: 1px dashed var(--cds-border-subtle-01);
+  color: var(--cds-text-secondary);
+  text-align: center;
+
+  p {
+    max-width: 26rem;
+  }
+}
+
+.panel-about {
+  max-width: 22rem;
+
+  p + p {
+    margin-top: spacing.$spacing-03;
+  }
+
+  &__label {
+    @include type.type-style('label-01');
+
+    color: var(--cds-text-secondary);
+    font-weight: 600;
+  }
+
+  &__views {
+    @include type.type-style('code-01');
+
+    color: var(--cds-text-helper);
+  }
+}
+
+.panel-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: spacing.$spacing-03;
+  margin-top: spacing.$spacing-05;
+  padding-top: spacing.$spacing-03;
+  border-top: 1px solid var(--cds-border-subtle-01);
+  color: var(--cds-text-helper);
+
+  &__file,
+  &__meta {
+    @include type.type-style('code-01');
+  }
+
+  &__meta {
+    display: inline-flex;
+    align-items: center;
+    gap: spacing.$spacing-02;
+  }
+}
+
+.source-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--cds-support-info);
+
+  &--live {
+    background: var(--cds-support-success);
+  }
+}
+
+// ── Status indicators ─────────────────────────────────────────────────────
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: spacing.$spacing-03;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  // Yellow fails contrast as a cutout, so Carbon fills the glyph inside caution-minor icons with black.
+  &--caution-minor svg .inner-path {
+    fill: #000000;
+    opacity: 1;
+  }
+}
+
+// ── Lookups and records ───────────────────────────────────────────────────
+
+.lookup {
+  &__description {
+    @include type.type-style('body-01');
+
+    max-width: 48rem;
+    margin-bottom: spacing.$spacing-05;
+    color: var(--cds-text-secondary);
+  }
+}
+
+.param-bar {
+  display: flex;
+  max-width: 40rem;
+  align-items: flex-end;
+
+  .cds--search {
+    flex: 1;
+  }
+}
+
+.records {
+  &__panel {
+    padding: 0;
+  }
+
+  &__prompt {
+    padding: spacing.$spacing-07 spacing.$spacing-05;
+    background: var(--cds-layer-01);
+    color: var(--cds-text-secondary);
+  }
+}
+
+.record-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: spacing.$spacing-03;
+
+  .cds--tag {
+    margin: 0;
+  }
+}
+
+// Table cells ignore max-width under automatic table layout, so the ellipsis lives on an inner block.
+.query-table__cell {
+  display: block;
+  max-width: 24rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.query-notice {
+  max-width: none;
+}
+
+// ── Shell ─────────────────────────────────────────────────────────────────
+
+.data-source-tag {
+  align-self: center;
+  margin-right: spacing.$spacing-03;
+  font-family: var(--cds-code-01-font-family, 'IBM Plex Mono', monospace);
+
+  @include bp.breakpoint-down(md) {
+    display: none;
+  }
+}
+
+.theme-panel {
+  padding: spacing.$spacing-05;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-header > *,
+  .page-header__eyebrow::after,
+  .kpi-tile,
+  .chart-panel {
+    animation: none;
+  }
+}

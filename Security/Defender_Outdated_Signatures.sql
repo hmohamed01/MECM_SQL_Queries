@@ -17,6 +17,7 @@ SELECT
     COALESCE(FORMAT(wds.AntivirusSignatureUpdateDateTime0, 'yyyy-MM-dd HH:mm'), 'Never') AS [Last Signature Update],
     DATEDIFF(DAY, wds.AntivirusSignatureUpdateDateTime0, GETDATE()) AS [Signature Age (Days)],
     CASE
+        WHEN wds.AntivirusSignatureUpdateDateTime0 IS NULL THEN 'No Signature Data'
         WHEN DATEDIFF(DAY, wds.AntivirusSignatureUpdateDateTime0, GETDATE()) > 14 THEN 'Critical (> 14 days)'
         WHEN DATEDIFF(DAY, wds.AntivirusSignatureUpdateDateTime0, GETDATE()) > 7 THEN 'Warning (> 7 days)'
         ELSE 'OK'

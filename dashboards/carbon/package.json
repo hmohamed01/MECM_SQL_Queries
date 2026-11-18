@@ -1,0 +1,36 @@
+{
+  "name": "mecm-carbon-dashboards",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "MECM reporting dashboards built on the Carbon Design System, powered by the SQL queries in this repository",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "node server/index.js --dev",
+    "build": "vite build",
+    "start": "node server/index.js"
+  },
+  "dependencies": {
+    "@carbon/charts-react": "^1.27.27",
+    "@carbon/colors": "^11.62.0",
+    "@carbon/icons-react": "^11.92.0",
+    "@carbon/react": "^1.121.0",
+    "@carbon/themes": "^11.86.0",
+    "compression": "^1.8.2",
+    "express": "^5.3.0",
+    "mssql": "^12.7.14",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "optionalDependencies": {
+    "msnodesqlv8": "^6.2.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.3.0",
+    "sass": "^1.108.2",
+    "vite": "^8.3.8"
+  }
+}

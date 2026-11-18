@@ -14,3 +14,11 @@ dashboards/.venv/
 
 # Dashboard preview generator (local only)
 dashboards/generate_preview.py
+
+# Personal task list (local only)
+/TASKS.md
+
+# Carbon dashboard dependencies, build output and connection settings
+dashboards/carbon/node_modules/
+dashboards/carbon/dist/
+dashboards/carbon/.env

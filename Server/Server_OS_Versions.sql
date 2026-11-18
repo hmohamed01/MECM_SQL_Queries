@@ -7,6 +7,7 @@
 SELECT
     os.Caption0 AS [Operating System],
     CASE
+        WHEN os.Caption0 LIKE '%2025%' THEN 'Server 2025'
         WHEN os.Caption0 LIKE '%2022%' THEN 'Server 2022'
         WHEN os.Caption0 LIKE '%2019%' THEN 'Server 2019'
         WHEN os.Caption0 LIKE '%2016%' THEN 'Server 2016'
